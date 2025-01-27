@@ -1,0 +1,16 @@
+{
+  "name": "codepipeline-nodejs-project",
+  "version": "1.0.0",
+  "description": "A simple Node.js app for AWS CodePipeline",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "build": "echo Build process completed!",
+    "test": "echo Tests are running!"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
