@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: MyCodeBuildProject
+      Source:
+        Type: GITHUB
+        Location: https://github.com/hitarthi1/Aws_Practice.git
+        GitCloneDepth: 1
+        BuildSpec: "buildspec.yml"        
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:5.0
+        PrivilegedMode: false
+      ServiceRole: !GetAtt CodeBuildServiceRole.Arn
+      SourceVersion: master  # Specify the branch (e.g., master)
+      Triggers:
+        Webhook: true  # Enable webhook for GitHub triggers
+        FilterGroups:
+          - - Type: EVENT
+              Pattern: PUSH  # Trigger on push events
+
+  CodeBuildServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: CodeBuildAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "logs:*"
+                  - "s3:*"
+                  - "codebuild:*"
+                  - "ssm:GetParameter"
+                Resource: "*"
