@@ -56,3 +56,8 @@ Resources:
                 Action:
                   - "secretsmanager:GetSecretValue"
                 Resource: "arn:aws:secretsmanager:us-east-1:913524941566:secret:MyDemoProject-opqWY1"
+              - Effect: Allow
+                Action:
+                  - "ssm:GetParameter"
+                  - "ssm:GetParameters"
+                Resource: "arn:aws:ssm:us-east-1:913524941566:parameter/github/personal-access-token"
